@@ -4,7 +4,6 @@
 #
 # (c) 2017 QuantAtRisk.com, by Pawel Lachowicz
  
-
 import numpy as np
 import pandas as pd
 #from scipy import stats
@@ -18,7 +17,6 @@ import requests
 import plotly.graph_objs as go
 import plotly.figure_factory as ff
 import plotly.plotly as py
-
 
 # define some custom colours
 grey = .6, .6, .6
