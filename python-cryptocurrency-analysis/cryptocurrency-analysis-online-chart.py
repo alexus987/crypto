@@ -324,7 +324,7 @@ def get_json_data(json_url, cache_path):
 
 
 base_polo_url = 'https://poloniex.com/public?command=returnChartData&currencyPair={}&start={}&end={}&period={}'
-start_date = datetime.strptime('2015-01-01', '%Y-%m-%d') # get data from the start of 2015
+start_date = datetime.strptime('2016-01-01', '%Y-%m-%d') # get data from the start of 2016
 end_date = datetime.now() # up until today
 pediod = 86400 # pull daily data (86,400 seconds per day)
 
@@ -347,7 +347,7 @@ def get_crypto_data(poloniex_pair):
 # In[20]:
 
 
-altcoins = ['ETH','LTC','XRP','ETC','STR','DASH','SC','XMR','XEM']
+altcoins = ['ETH','LTC','XRP','ETC','STR','DASH','SC','XMR','XEM','STRAT','REP','SC']
 
 altcoin_data = {}
 for altcoin in altcoins:
@@ -407,3 +407,68 @@ combined_df['BTC'] = btc_usd_datasets['avg_btc_price_usd']
 
 # Chart all of the altocoin prices
 df_scatter(combined_df, 'Cryptocurrency Prices (USD)', seperate_y_axis=False, y_axis_label='Coin Value (USD)', scale='log')
+
+
+# In[26]:
+
+
+# Calculate the pearson correlation coefficients for altcoins in 2016
+##combined_df_2016 = combined_df[combined_df.index.year == 2016]
+##combined_df_2016.pct_change().corr(method='pearson')
+
+
+# These correlation coefficients are all over the place.  Coefficients close to 1 or -1 mean that the series' are strongly correlated or inversely correlated respectively, and coefficients close to zero mean that the values tend to fluctuate independently of each other.
+# 
+# To help visualize these results, we'll create one more helper visualization function.
+
+# In[27]:
+
+import plotly.plotly as py
+from plotly.graph_objs import *
+def correlation_heatmap(df, title, absolute_bounds=True):
+    '''Plot a correlation heatmap for the entire dataframe'''
+    heatmap = go.Heatmap(
+        z=df.corr(method='pearson').as_matrix(),
+        x=df.columns,
+        y=df.columns,
+        colorbar=dict(title='Pearson Coefficient'),
+    )
+    
+    layout = go.Layout(title=title)
+    
+    if absolute_bounds:
+        heatmap['zmax'] = 1.0
+        heatmap['zmin'] = -1.0
+        
+    fig = go.Figure(data=[heatmap], layout=layout)
+    py.plot(fig, filename = 'Cryptocurrency Correlations', fileopt ='overwrite' )
+
+
+# In[28]:
+
+
+#correlation_heatmap(combined_df_2016.pct_change(), "Cryptocurrency Correlations in 2016")
+
+
+# Here, the dark red values represent strong correlations (note that each currency is, obviously, strongly correlated with itself), and the dark blue values represent strong inverse correlations.  All of the light blue/orange/gray/tan colors in-between represent varying degrees of weak/non-existent correlations.
+# 
+# What does this chart tell us? Essentially, it shows that there was very little statistically significant linkage between how the prices of different cryptocurrencies fluctuated during 2016.
+# 
+# Now, to test our hypothesis that the cryptocurrencies have become more correlated in recent months, let's repeat the same test using only the data from 2017.
+
+# In[29]:
+
+
+combined_df_2017 = combined_df[combined_df.index.year == 2017]
+combined_df_2017.pct_change().corr(method='pearson')
+
+
+# These are somewhat more significant correlation coefficients.  Strong enough to use as the sole basis for an investment? Certainly not.  
+# 
+# It is notable, however, that almost all of the cryptocurrencies have become more correlated with each other across the board.
+
+# In[30]:
+
+
+correlation_heatmap(combined_df_2017.pct_change(), "Cryptocurrency Correlations in 2017")
+
