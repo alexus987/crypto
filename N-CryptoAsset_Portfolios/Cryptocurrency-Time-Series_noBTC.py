@@ -37,7 +37,7 @@ df.sort_values(by=['MarketCap'])
 # apply conversion to numeric as 'df' contains lots of 'None' string as values
 df.MarketCap = pd.to_numeric(df.MarketCap)
 
-P = df[(df.MarketCap > 200e6) & (df.Ticker !='BTC') & (df.Ticker !='BCC')]
+P = df[(df.MarketCap > 190e6) & (df.Ticker !='BCC') &(df.Ticker !='BTC') ]
 
  
 def timestamp2date(timestamp):
