@@ -193,7 +193,7 @@ def correlation_heatmap(df, title, absolute_bounds=True):
     py.plot(fig, filename = 'TOP Cryptocurrencies Correlations in Aug 2017', fileopt ='overwrite' )
 
 #August 2017
-df_2017 = df[(df.index.year == 2017)&(df.index.month == 8)]
+df_2017 = df[(df.index.year == 2017)&(df.index.month == 10)]
 
 correlation_heatmap(df_2017.pct_change(), "TOP Cryptocurrencies Correlations in Aug 2017")
 
