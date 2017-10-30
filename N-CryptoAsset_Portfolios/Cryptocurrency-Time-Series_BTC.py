@@ -164,7 +164,7 @@ def df_scatter(df, title, seperate_y_axis=False, y_axis_label='', scale='linear'
 
     fig = go.Figure(data=trace_arr, layout=layout)
     # Onlne Plot
-    py.plot(fig, filename = 'Cryptocurrency PAC',  fileopt ='overwrite')
+    py.plot(fig, filename = 'Cryptocurrency PAC',  fileopt ='overwrite', auto_open=False)
     # Offline Plot
     #py.iplot(fig)
 
@@ -190,7 +190,7 @@ def correlation_heatmap(df, title, absolute_bounds=True):
         heatmap['zmin'] = -1.0
         
     fig = go.Figure(data=[heatmap], layout=layout)
-    py.plot(fig, filename = 'TOP Cryptocurrencies Correlations in Aug 2017', fileopt ='overwrite' )
+    py.plot(fig, filename = 'TOP Cryptocurrencies Correlations in Aug 2017', fileopt ='overwrite', auto_open=False )
 
 #August 2017
 df_2017 = df[(df.index.year == 2017)&(df.index.month == 10)]
